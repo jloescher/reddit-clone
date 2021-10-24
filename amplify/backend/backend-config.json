@@ -1,6 +1,6 @@
 {
   "auth": {
-    "redditclone02b1fd78": {
+    "redditcloneb1117934": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
@@ -10,7 +10,9 @@
           "PREFERRED_USERNAME"
         ],
         "signupAttributes": [
-          "EMAIL"
+          "EMAIL",
+          "FAMILY_NAME",
+          "GIVEN_NAME"
         ],
         "passwordProtectionSettings": {
           "passwordPolicyMinLength": 8,
@@ -35,7 +37,7 @@
           "defaultAuthentication": {
             "authenticationType": "API_KEY",
             "apiKeyConfig": {
-              "apiKeyExpirationDays": 7,
+              "apiKeyExpirationDays": 30,
               "description": "Reddit Clone API Key"
             }
           },
@@ -43,7 +45,7 @@
             {
               "authenticationType": "AMAZON_COGNITO_USER_POOLS",
               "userPoolConfig": {
-                "userPoolId": "authredditclone02b1fd78"
+                "userPoolId": "authredditcloneb1117934"
               }
             }
           ]

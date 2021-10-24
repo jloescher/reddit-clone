@@ -7,6 +7,13 @@ import { CacheProvider, EmotionCache } from "@emotion/react";
 import theme from "../theme";
 import createEmotionCache from "../createEmotionCache";
 
+import { Amplify, Auth } from "aws-amplify";
+
+import awsconfig from "../aws-exports";
+import AuthContext from "../context/AuthContext";
+
+Amplify.configure({ ...awsconfig, ssr: true });
+
 const clientSideEmotionCache = createEmotionCache();
 
 interface MyAppProps extends AppProps {
@@ -21,11 +28,13 @@ function MyApp(props: MyAppProps) {
         <title>Reddit Clone</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
-      <ThemeProvider theme={theme}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-        <CssBaseline />
-        <Component {...pageProps} />
-      </ThemeProvider>
+      <AuthContext>
+        <ThemeProvider theme={theme}>
+          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+          <CssBaseline />
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </AuthContext>
     </CacheProvider>
   );
 }

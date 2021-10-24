@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "redditclone02b1fd78_identitypool_02b1fd78",
+    "identityPoolName": "redditcloneb1117934_identitypool_b1117934",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "reddit02b1fd78",
-    "userPoolName": "redditclone02b1fd78_userpool_02b1fd78",
+    "resourceNameTruncated": "redditb1117934",
+    "userPoolName": "redditcloneb1117934_userpool_b1117934",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -18,7 +18,9 @@
     "passwordPolicyMinLength": 8,
     "passwordPolicyCharacters": [],
     "requiredAttributes": [
-        "email"
+        "email",
+        "family_name",
+        "given_name"
     ],
     "aliasAttributes": [],
     "userpoolClientGenerateSecret": false,
@@ -29,10 +31,10 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "reddit02b1fd78_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "redditb1117934_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "02b1fd78",
-    "resourceName": "redditclone02b1fd78",
+    "sharedId": "b1117934",
+    "resourceName": "redditcloneb1117934",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
