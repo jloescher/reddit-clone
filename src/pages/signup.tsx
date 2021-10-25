@@ -5,6 +5,8 @@ import { Button, TextField, Grid, Alert, Snackbar } from "@mui/material";
 import { useUser } from "../context/AuthContext";
 import { CognitoUser } from "amazon-cognito-identity-js";
 
+import { useRouter } from "next/router";
+
 interface Props {}
 
 interface IFormInput {
@@ -13,11 +15,12 @@ interface IFormInput {
   username: string;
   email: string;
   password: string;
-  code: number;
+  code: string;
 }
 
 const Signup = ({}: Props): ReactElement => {
   const { user, setUser } = useUser();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [signUpError, setSignUpError] = useState<string>("");
   const [showCode, setShowCode] = useState<boolean>(false);
@@ -28,9 +31,26 @@ const Signup = ({}: Props): ReactElement => {
     handleSubmit,
   } = useForm<IFormInput>();
 
+  const confirmSignUp = async (data: IFormInput) => {
+    const { username, password, code } = data;
+    try {
+      await Auth.confirmSignUp(username, code);
+      const amplifyUser = await Auth.signIn(username, password);
+      console.log("Success, signed in a user:", amplifyUser);
+      if (amplifyUser) {
+        router.push("/");
+      } else {
+        throw new Error("Something went wrong :'(");
+      }
+    } catch (err) {
+      console.error("Error confirming sign up:", err);
+    }
+  };
+
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try {
       if (showCode) {
+        confirmSignUp(data);
       } else {
         await signUp(data);
         setShowCode(true);
@@ -183,7 +203,7 @@ const Signup = ({}: Props): ReactElement => {
         )}
         <Grid item>
           <Button variant="contained" type="submit">
-            Sign up
+            {showCode ? "Confirm Code" : "Sign up"}
           </Button>
         </Grid>
       </Grid>
