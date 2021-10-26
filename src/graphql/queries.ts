@@ -9,6 +9,8 @@ export const getPost = /* GraphQL */ `
       title
       contents
       image
+      upvotes
+      downvotes
       createdAt
       updatedAt
       owner
@@ -38,6 +40,8 @@ export const listPosts = /* GraphQL */ `
         title
         contents
         image
+        upvotes
+        downvotes
         createdAt
         updatedAt
         owner
@@ -62,6 +66,8 @@ export const getComment = /* GraphQL */ `
         title
         contents
         image
+        upvotes
+        downvotes
         createdAt
         updatedAt
         owner
@@ -91,6 +97,8 @@ export const listComments = /* GraphQL */ `
           title
           contents
           image
+          upvotes
+          downvotes
           createdAt
           updatedAt
           owner

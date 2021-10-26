@@ -12,6 +12,8 @@ export const createPost = /* GraphQL */ `
       title
       contents
       image
+      upvotes
+      downvotes
       createdAt
       updatedAt
       owner
@@ -39,6 +41,8 @@ export const updatePost = /* GraphQL */ `
       title
       contents
       image
+      upvotes
+      downvotes
       createdAt
       updatedAt
       owner
@@ -66,6 +70,8 @@ export const deletePost = /* GraphQL */ `
       title
       contents
       image
+      upvotes
+      downvotes
       createdAt
       updatedAt
       owner
@@ -99,6 +105,8 @@ export const createComment = /* GraphQL */ `
         title
         contents
         image
+        upvotes
+        downvotes
         createdAt
         updatedAt
         owner
@@ -126,6 +134,8 @@ export const updateComment = /* GraphQL */ `
         title
         contents
         image
+        upvotes
+        downvotes
         createdAt
         updatedAt
         owner
@@ -153,6 +163,8 @@ export const deleteComment = /* GraphQL */ `
         title
         contents
         image
+        upvotes
+        downvotes
         createdAt
         updatedAt
         owner
