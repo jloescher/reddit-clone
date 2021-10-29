@@ -1,17 +1,26 @@
 import React, { ReactElement } from "react";
 import { GetStaticPaths, GetStaticProps } from "next";
-import { Grid } from "@mui/material";
+import { Container, Grid } from "@mui/material";
 import { API, withSSRContext } from "aws-amplify";
 import { ListPostsQuery, GetPostQuery, Post } from "../../API";
 import { listPosts, getPost } from "../../graphql/queries";
+import PostPage from "../../components/PostPage";
+import PostComment from "../../components/PostComment";
 
 interface Props {
-  post: Post;
+  post: PostPage;
 }
 
 const IndividualPost = ({ post }: Props): ReactElement => {
   console.log("Got post:", post);
-  return <Grid container></Grid>;
+  return (
+    <Container maxWidth="md">
+      <PostPage post={post} />
+      {post.comments.items.map((comment) => (
+        <PostComment key={comment.id} comment={comment} />
+      ))}
+    </Container>
+  );
 };
 
 const getStaticProps: GetStaticProps = async ({ params }) => {
