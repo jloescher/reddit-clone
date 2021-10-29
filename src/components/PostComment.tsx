@@ -10,7 +10,10 @@ interface Props {
 const PostComment = ({ comment }: Props): ReactElement => {
   console.log("comment", comment);
   return (
-    <Paper style={{ width: "100%", minHeight: 128, marginTop: 15, padding: 8 }}>
+    <Paper
+      style={{ width: "100%", minHeight: 128, marginTop: 16, padding: 16 }}
+      elevation={1}
+    >
       <Grid container spacing={1} direction="column">
         <Grid item>
           <Typography variant="body1">

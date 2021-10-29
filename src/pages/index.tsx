@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { API } from "aws-amplify";
 import { ListPostsQuery, Post } from "../API";
 import PostPreview from "../components/PostPreview";
+import Header from "../components/Header";
 
 const Home: NextPage = () => {
   const { user } = useUser();
@@ -34,6 +35,7 @@ const Home: NextPage = () => {
 
   return (
     <Container maxWidth="md">
+      <Header />
       {posts.map((post) => (
         <PostPreview key={post.id} post={post} />
       ))}
