@@ -1,14 +1,12 @@
 import type { NextPage } from "next";
-import { Container, Typography } from "@mui/material";
-import Head from "next/head";
-import Image from "next/image";
+import { Container } from "@mui/material";
+
 import { useUser } from "../context/AuthContext";
 import { listPosts } from "../graphql/queries";
 import { useEffect, useState } from "react";
 import { API } from "aws-amplify";
 import { ListPostsQuery, Post } from "../API";
 import PostPreview from "../components/PostPreview";
-import Header from "../components/Header";
 
 const Home: NextPage = () => {
   const { user } = useUser();
@@ -35,7 +33,6 @@ const Home: NextPage = () => {
 
   return (
     <Container maxWidth="md">
-      <Header />
       {posts.map((post) => (
         <PostPreview key={post.id} post={post} />
       ))}

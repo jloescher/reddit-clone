@@ -3,7 +3,6 @@ import { Auth } from "aws-amplify";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Button, TextField, Grid, Alert, Snackbar } from "@mui/material";
 import { useUser } from "../context/AuthContext";
-import { CognitoUser } from "amazon-cognito-identity-js";
 
 import { useRouter } from "next/router";
 
@@ -29,11 +28,12 @@ const Login = ({}: Props): ReactElement => {
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     const { username, password } = data;
     try {
-      const amplifyUser = await Auth.signIn(username, password);
+      await Auth.signIn(username, password);
       console.log("Signed in a user:", user);
       router.push("/");
     } catch (err) {
-      throw err;
+      setLoginError(err.message);
+      setOpen(true);
     }
   };
 

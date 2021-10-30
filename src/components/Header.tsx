@@ -12,13 +12,17 @@ import {
   Menu,
   MenuItem,
   Button,
+  ButtonBase,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import AddBoxIcon from "@mui/icons-material/AddBox";
 import { AccountCircle } from "@mui/icons-material";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { useUser } from "../context/AuthContext";
+import { useRouter } from "next/router";
+import { Auth } from "aws-amplify";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -61,6 +65,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Header = (): ReactElement => {
+  const router = useRouter();
   const { user } = useUser();
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -85,6 +90,10 @@ const Header = (): ReactElement => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const logUserOut = async () => {
+    await Auth.signOut();
+  };
+
   const menuId = "primary-search-account-menu";
 
   const renderMenu = (
@@ -105,6 +114,14 @@ const Header = (): ReactElement => {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem
+        onClick={async () => {
+          await logUserOut();
+          handleMenuClose();
+        }}
+      >
+        Logout
+      </MenuItem>
     </Menu>
   );
 
@@ -125,6 +142,13 @@ const Header = (): ReactElement => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
+      <MenuItem>
+        <IconButton size="large" aria-label="Create Post" color="inherit">
+          <AddBoxIcon />
+        </IconButton>
+        <p>Create Post</p>
+      </MenuItem>
+
       <MenuItem>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="error">
@@ -162,16 +186,18 @@ const Header = (): ReactElement => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" color="inherit">
         <Toolbar>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: "none", sm: "block" } }}
-          >
-            React Clone
-          </Typography>
+          <ButtonBase onClick={() => router.push(`/`)}>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ display: { xs: "none", sm: "block" } }}
+            >
+              React Clone
+            </Typography>
+          </ButtonBase>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -183,24 +209,33 @@ const Header = (): ReactElement => {
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <IconButton
-              size="large"
-              aria-label="show 4 new mails"
-              color="inherit"
-            >
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+            {user && (
+              <IconButton size="large" aria-label="Create Post" color="inherit">
+                <AddBoxIcon />
+              </IconButton>
+            )}
+            {user && (
+              <IconButton
+                size="large"
+                aria-label="show 4 new mails"
+                color="inherit"
+              >
+                <Badge badgeContent={4} color="warning">
+                  <MailIcon />
+                </Badge>
+              </IconButton>
+            )}
+            {user && (
+              <IconButton
+                size="large"
+                aria-label="show 17 new notifications"
+                color="inherit"
+              >
+                <Badge badgeContent={17} color="warning">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+            )}
             {user && (
               <IconButton
                 size="large"
@@ -215,18 +250,24 @@ const Header = (): ReactElement => {
               </IconButton>
             )}
             {!user && (
-              <div>
-                <Button variant="text">
+              <Box flex flexDirection="row" justifyItems="">
+                <Button
+                  variant="outlined"
+                  onClick={() => router.push(`/login`)}
+                >
                   <Typography variant="body1" color="TypeText.Primary">
                     Login
                   </Typography>
                 </Button>
-                <Button variant="text">
+                <Button
+                  variant="contained"
+                  onClick={() => router.push(`/signup`)}
+                >
                   <Typography variant="body1" color="TypeText.Primary">
                     Register
                   </Typography>
                 </Button>
-              </div>
+              </Box>
             )}
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
